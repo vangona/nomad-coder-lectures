@@ -6,16 +6,19 @@ const GET_MOVIE = gql`
     query getMovie($id: Int!){
         movie(id: $id) {
             id
-            Title
+            title
             medium_cover_image
+            language
+            rating
             description_intro
         }
     }
 `
 
 export default () => {
-    const {id} = useParams();
-    const { loading, data } = useQuery(GET_MOVIE, {variables: { id }});
+    let { id } = useParams();
+    const { loading, data } = useQuery(GET_MOVIE, {variables: { id: parseInt(id) }}
+    );
     if (loading) {
         return "loading"
     }
