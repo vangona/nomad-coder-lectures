@@ -18,7 +18,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: window.innerHeight;
+    height: 100%;
 `;
 const Header = styled.div`
     display: flex;
@@ -27,7 +27,7 @@ const Header = styled.div`
     align-items: center;
     width: 100%;
     height: 300px;
-    background: gray;
+    background: linear-gradient(-90deg, hsla(177, 87%, 79%, 1) 0%, hsla(235, 89%, 70%, 1) 100%);
     color: white;
 `;
 const Title = styled.h1`
@@ -41,16 +41,29 @@ const Loading = styled.span`
     color: gray;
 `;
 
+const Movies = styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 25px;
+    width: 80%;
+    position: relative;
+    top: -50px;
+`;
+
 export default () => {
     const { loading, data } = useQuery(GET_MOVIES);
     return (
     <Container>
         <Header>
-            <Title>Apollo 2021</Title>
-            <Subtitle>Movie web with GraphQL & Apollo</Subtitle>
+            <Title>Apollo Movie Web 2021</Title>
+            <Subtitle>Movies with GraphQL & Apollo</Subtitle>
         </Header>
         {loading && <Loading>Loading...</Loading>}
-        {!loading && data.movies && data.movies.map(m => <Movie key={m.id} {...m} id={m.id}/>)}
+        {!loading && (
+            <Movies>
+                {data?.movies?.map(m => <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />)}
+            </Movies>
+        )}
     </Container>
     )
 }
