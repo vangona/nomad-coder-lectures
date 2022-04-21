@@ -20,11 +20,18 @@ const deleteToDo = (id) => {
 const reducer = (state = [], action) => {
   switch (action.type) {
     case ADD:
-      return [{ text: action.text, id: Date.now() }, ...state];
+      const newState = [{ text: action.text, id: Date.now() }, ...state];
+      localStorage.setItem("redux-todo", JSON.stringify(newState));
+      return newState;
+
     case DELETE:
-      return state.filter((toDo) => toDo.id !== action.id);
+      const deletedState = state.filter((toDo) => toDo.id !== action.id);
+      localStorage.setItem("redux-todo", JSON.stringify(deletedState));
+      return deletedState;
+
     default:
-      return state;
+      const data = JSON.parse(localStorage.getItem("redux-todo"));
+      return data || state;
   }
 };
 
